@@ -381,6 +381,7 @@ public:
 	class CBinds *m_pBinds;
 	class CParticles *m_pParticles;
 	class CMenus *m_pMenus;
+	class CNetGui *m_pNetGui;
 	class CSkins *m_pSkins;
 	class CCountryFlags *m_pCountryFlags;
 	class CFlow *m_pFlow;

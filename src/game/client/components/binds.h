@@ -7,7 +7,6 @@
 
 class CBinds : public CComponent
 {
-	int GetKeyID(const char *pKeyName);
 
 	static void ConBind(IConsole::IResult *pResult, void *pUserData);
 	static void ConDumpBinds(IConsole::IResult *pResult, void *pUserData);
@@ -43,6 +42,7 @@ public:
 	void UnbindAll();
 	const char *Get(int KeyID, int Modifier);
 	void GetKey(const char *pBindStr, char *aBuf, unsigned BufSize);
+	int GetKeyID(const char *pKeyName);
 	int GetBindSlot(const char *pBindString, int *Modifier);
 	static int GetModifierMask(IInput *i);
 	static int GetModifierMaskOfKey(int Key);

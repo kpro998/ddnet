@@ -17,6 +17,7 @@
 #include "gameworld.h"
 #include "player.h"
 #include "teehistorian.h"
+#include "netgui.h"
 
 #ifdef _MSC_VER
 typedef __int32 int32_t;
@@ -73,6 +74,7 @@ class CGameContext : public IGameServer
 	CNetObjHandler m_NetObjHandler;
 	CTuningParams m_Tuning;
 	CTuningParams m_aTuningList[NUM_TUNEZONES];
+	CNetGui *m_pNetGui;
 
 	bool m_TeeHistorianActive;
 	CTeeHistorian m_TeeHistorian;

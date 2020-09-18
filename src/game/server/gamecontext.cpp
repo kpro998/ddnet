@@ -35,6 +35,7 @@ void CGameContext::Construct(int Resetting)
 {
 	m_Resetting = 0;
 	m_pServer = 0;
+	m_pNetGui = 0;
 
 	for(int i = 0; i < MAX_CLIENTS; i++)
 		m_apPlayers[i] = 0;
@@ -56,6 +57,7 @@ void CGameContext::Construct(int Resetting)
 		m_pScore = 0;
 		m_NumMutes = 0;
 		m_NumVoteMutes = 0;
+		m_pNetGui = new CNetGui(this);
 	}
 	m_ChatResponseTargetID = -1;
 	m_aDeleteTempfile[0] = 0;
@@ -77,7 +79,10 @@ CGameContext::~CGameContext()
 	for(int i = 0; i < MAX_CLIENTS; i++)
 		delete m_apPlayers[i];
 	if(!m_Resetting)
+	{
 		delete m_pVoteOptionHeap;
+		delete m_pNetGui;
+	}
 
 	if(m_pScore)
 		delete m_pScore;
@@ -90,6 +95,7 @@ void CGameContext::Clear()
 	CVoteOptionServer *pVoteOptionLast = m_pVoteOptionLast;
 	int NumVoteOptions = m_NumVoteOptions;
 	CTuningParams Tuning = m_Tuning;
+	CNetGui *pNetGui = m_pNetGui;
 
 	m_Resetting = true;
 	this->~CGameContext();
@@ -101,6 +107,7 @@ void CGameContext::Clear()
 	m_pVoteOptionLast = pVoteOptionLast;
 	m_NumVoteOptions = NumVoteOptions;
 	m_Tuning = Tuning;
+	m_pNetGui = pNetGui;
 }
 
 
@@ -1287,6 +1294,8 @@ void CGameContext::OnClientEnter(int ClientID)
 		NewClientInfoMsg.m_Local = 1;
 		Server()->SendPackMsg(&NewClientInfoMsg, MSGFLAG_VITAL|MSGFLAG_NORECORD, ClientID);
 	}
+
+	m_pNetGui->OnClientEnter(ClientID); // TODO: maybe remove this, might be depreciated
 }
 
 void CGameContext::OnClientConnected(int ClientID)
@@ -1383,6 +1392,8 @@ void CGameContext::OnClientDrop(int ClientID, const char *pReason)
 	Server()->SendPackMsg(&Msg, MSGFLAG_VITAL|MSGFLAG_NORECORD, -1);
 
 	Server()->ExpireServerInfo();
+
+	m_pNetGui->OnClientDrop(ClientID);
 }
 
 void CGameContext::OnClientEngineJoin(int ClientID, bool Sixup)
@@ -1616,6 +1627,8 @@ void CGameContext::OnMessage(int MsgID, CUnpacker *pUnpacker, int ClientID)
 
 	if(Server()->ClientIngame(ClientID))
 	{
+		m_pNetGui->OnMessage(MsgID, pRawMsg, ClientID);
+
 		if(MsgID == NETMSGTYPE_CL_SAY)
 		{
 			CNetMsg_Cl_Say *pMsg = (CNetMsg_Cl_Say *)pRawMsg;

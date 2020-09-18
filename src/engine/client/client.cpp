@@ -55,6 +55,8 @@
 #include <game/extrainfo.h>
 #include <game/version.h>
 
+#include <game/generated/protocol.h>
+
 #include <mastersrv/mastersrv.h>
 
 #include <engine/client/serverbrowser.h>
@@ -654,6 +656,12 @@ void CClient::EnterGame()
 	ServerInfoRequest(); // fresh one for timeout protection
 	m_aTimeoutCodeSent[0] = false;
 	m_aTimeoutCodeSent[1] = false;
+
+	// tell the server that i'm a netgui compatible client
+	CNetMsg_Cl_NetGui_TriggerEvent NGMsg;
+	NGMsg.m_Type = 1883;
+	NGMsg.m_ID = 5397;
+	SendPackMsg(&NGMsg, MSGFLAG_VITAL);
 }
 
 void GenerateTimeoutCode(char *pBuffer, unsigned Size, char *pSeed, const NETADDR &Addr, bool Dummy)

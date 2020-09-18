@@ -435,4 +435,129 @@ Messages = [
 	NetMessageEx("Cl_ShowOthers", "showothers@netmsg.ddnet.tw", [
 		NetIntRange("m_Show", 0, 2),
 	]),
+	
+	## NetGUI Server Messages
+	NetMessageEx("Sv_NetGui_RemoveElement", "netgui-removeelement@netmsg.ddnet.tw", [
+		NetIntAny("m_Type"),
+		NetIntAny("m_ID"),
+	]),
+	
+	NetMessageEx("Sv_NetGui_RemoveAllElements", "netgui-removeallelements@netmsg.ddnet.tw", [
+		NetIntAny("m_Type"),
+	]),
+	
+	NetMessageEx("Sv_NetGui_ClearAll", "netgui-clearall@netmsg.ddnet.tw", [
+	]),
+
+	NetMessageEx("Sv_NetGui_RequestData", "netgui-requestdata@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetIntAny("m_Type"),
+	]),
+
+	NetMessageEx("Sv_NetGui_UIRect", "netgui-uirect@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetArray(NetIntRange("m_Color", 0, 100), 4),
+		NetIntRange("m_Corner", 0, 255),
+		NetIntRange("m_RoundingX10", 0, 500),
+	]),
+
+	NetMessageEx("Sv_NetGui_Label", "netgui-label@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetString("m_Text"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetArray(NetIntRange("m_Color", 0, 100), 4),
+		NetIntAny("m_FontSize"),
+		NetIntRange("m_FontAlign", 0, 2),
+		NetIntRange("m_MaxTextWidth", 0, 100),		
+	]),
+
+	NetMessageEx("Sv_NetGui_ButtonMenu", "netgui-buttonmenu@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetString("m_Text"),
+		NetIntRange("m_Selected", 0, 1),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+	##	NetArray(NetIntRange("m_Color", 0, 100), 4),
+	]),	
+
+	NetMessageEx("Sv_NetGui_EditBox", "netgui-editbox@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetString("m_Title"),
+		NetIntAny("m_SplitValue"),
+		NetIntAny("m_MaxTextWidth"),
+		NetIntRange("m_Password", 0, 1),
+		##NetIntRange("m_Corner", 0, 255),
+	]),
+
+	NetMessageEx("Sv_NetGui_CheckBox", "netgui-checkbox@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetString("m_Text"),
+		NetIntRange("m_Checked", 0, 1),
+	]),
+
+	NetMessageEx("Sv_NetGui_CheckBoxNumber", "netgui-checkboxnumber@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetString("m_Text"),
+		NetIntAny("m_Value"),
+		NetIntAny("m_MinValue"),
+		NetIntAny("m_MaxValue"),
+		NetIntAny("m_StepValue"),
+	]),
+
+	NetMessageEx("Sv_NetGui_Scrollbar", "netgui-scrollbar@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetIntAny("m_ValueX100"),
+		NetIntRange("m_Vertical", 0, 1),
+		##NetIntAny("m_MinValue"),
+		##NetIntAny("m_MaxValue"),
+		##NetIntRange("m_Infinite", 0, 1),
+	]),
+
+	NetMessageEx("Sv_NetGui_ScrollbarOption", "netgui-scrollbaroption@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetString("m_Text"),
+		NetIntAny("m_VSplitValX10"),
+		NetIntAny("m_Value"),
+		NetIntAny("m_MinValue"),
+		NetIntAny("m_MaxValue"),
+		NetIntRange("m_Infinite", 0, 1),
+	]),
+	
+	NetMessageEx("Sv_NetGui_InfoBox", "netgui-infobox@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetString("m_Label"),
+		NetString("m_Value"),
+	]),
+	
+	NetMessageEx("Sv_NetGui_KeySelect", "netgui-keyselect@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetArray(NetIntRange("m_Dimension", 0, 100), 4),
+		NetString("m_Text"),
+		NetString("m_Command"),
+		NetIntRange("m_VSplitVal", 0, 100),
+	]),
+	
+	## NetGUI Client Messages
+	NetMessageEx("Cl_NetGui_TriggerEvent", "netgui-triggerevent@netmsg.ddnet.tw", [ 
+		NetIntAny("m_Type"),
+		NetIntAny("m_ID"),
+	]),
+
+	NetMessageEx("Cl_NetGui_ResponseInt", "netgui-responseint@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetIntAny("m_Type"),
+		NetIntAny("m_Value"),
+	]),
+
+	NetMessageEx("Cl_NetGui_ResponseString", "netgui-responsestring@netmsg.ddnet.tw", [
+		NetIntAny("m_ID"),
+		NetIntAny("m_Type"),
+		NetString("m_Text"),
+	]),
 ]

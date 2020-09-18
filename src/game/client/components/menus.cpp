@@ -178,7 +178,9 @@ int CMenus::DoButton_Menu(const void *pID, const char *pText, int Checked, const
 	Text.HMargin(pRect->h >= 20.0f ? 2.0f : 1.0f, &Text);
 	Text.HMargin((Text.h * FontFactor) / 2.0f, &Text);
 	UI()->DoLabel(&Text, pText, Text.h * ms_FontmodHeight, 0);
-	return UI()->DoButtonLogic(pID, pText, Checked, pRect);
+	int ret = UI()->DoButtonLogic(pID, pText, Checked, pRect);
+	if(ret) *const_cast<float*>(reinterpret_cast<const float*>(pID)) = 0;
+	return ret;
 }
 
 void CMenus::DoButton_KeySelect(const void *pID, const char *pText, int Checked, const CUIRect *pRect)
@@ -2380,4 +2382,57 @@ void CMenus::SetMenuPage(int NewPage)
 	m_MenuPage = NewPage;
 	if(NewPage >= PAGE_INTERNET && NewPage <= PAGE_KOG)
 		g_Config.m_UiPage = NewPage;
+}
+
+void CMenus::DoEditBoxOption(void *pID, char *pOption, int OptionLength, const CUIRect *pRect, const char *pStr,  float VSplitVal, float *pOffset, bool Hidden)
+{
+	RenderTools()->DrawUIRect(pRect, vec4(0.0f, 0.0f, 0.0f, 0.25f), CUI::CORNER_ALL, 5.0f);
+
+	CUIRect Label, EditBox;
+	pRect->VSplitLeft(VSplitVal, &Label, &EditBox);
+
+	char aBuf[32];
+	str_format(aBuf, sizeof(aBuf), "%s:", pStr);
+	Label.y += 2.0f;
+	UI()->DoLabel(&Label, aBuf, pRect->h*ms_FontmodHeight*0.8f, 1);
+
+	DoEditBox(pID, &EditBox, pOption, OptionLength, pRect->h*ms_FontmodHeight*0.8f, pOffset, Hidden);
+}
+
+void CMenus::DoScrollbarOption(void *pID, int *pOption, const CUIRect *pRect, const char *pStr, float VSplitVal, int Min, int Max, bool infinite)
+{
+	RenderTools()->DrawUIRect(pRect, vec4(0.0f, 0.0f, 0.0f, 0.25f), CUI::CORNER_ALL, 5.0f);
+
+	CUIRect Label, ScrollBar;
+	pRect->VSplitLeft(VSplitVal, &Label, &ScrollBar);
+
+	char aBuf[32];
+	if(*pOption || !infinite)
+		str_format(aBuf, sizeof(aBuf), "%s: %i", pStr, *pOption);
+	else
+		str_format(aBuf, sizeof(aBuf), "%s: \xe2\x88\x9e", pStr);
+	Label.VSplitLeft(Label.h+5.0f, 0, &Label);
+	Label.y += 2.0f;
+	UI()->DoLabel(&Label, aBuf, pRect->h*ms_FontmodHeight*0.8f, 1);
+
+	ScrollBar.VMargin(4.0f, &ScrollBar);
+	*pOption = round_to_int(DoScrollbarH(pOption, &ScrollBar, (float)(*pOption-Min)/(float)(Max-Min))*(float)(Max-Min)+(float)Min+0.1f);
+}
+
+void CMenus::DoInfoBox(const CUIRect *pRect, const char *pLabel, const char *pValue)
+{
+	RenderTools()->DrawUIRect(pRect, vec4(0.0f, 0.0f, 0.0f, 0.25f), CUI::CORNER_ALL, 5.0f);
+
+	CUIRect Label, Value;
+	pRect->VSplitMid(&Label, &Value);
+
+	RenderTools()->DrawUIRect(&Value, vec4(0.0f, 0.0f, 0.0f, 0.25f), CUI::CORNER_ALL, 5.0f);
+
+	char aBuf[32];
+	str_format(aBuf, sizeof(aBuf), "%s:", pLabel);
+	Label.y += 2.0f;
+	UI()->DoLabel(&Label, aBuf, pRect->h*ms_FontmodHeight*0.8f, 1);
+
+	Value.y += 2.0f;
+	UI()->DoLabel(&Value, pValue, pRect->h*ms_FontmodHeight*0.8f, 1);
 }

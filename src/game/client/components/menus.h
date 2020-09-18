@@ -84,6 +84,11 @@ class CMenus : public CComponent
 	//static int ui_do_key_reader(void *id, const CUIRect *rect, int key);
 	void UiDoGetButtons(int Start, int Stop, CUIRect View, CUIRect ScopeView);
 
+	//netguistuff
+	void DoEditBoxOption(void *pID, char *pOption, int OptionLength, const CUIRect *pRect, const char *pStr, float VSplitVal, float *pOffset, bool Hidden=false);
+	void DoScrollbarOption(void *pID, int *pOption, const CUIRect *pRect, const char *pStr, float VSplitVal, int Min, int Max, bool infinite=false);
+	void DoInfoBox(const CUIRect *pRect, const char *pLable, const char *pValue);
+
 	struct CListboxItem
 	{
 		int m_Visible;
@@ -308,6 +313,7 @@ class CMenus : public CComponent
 	void RenderServerControl(CUIRect MainView);
 	bool RenderServerControlKick(CUIRect MainView, bool FilterSpectators);
 	bool RenderServerControlServer(CUIRect MainView);
+	void RenderNetGui(CUIRect MainView);
 
 	// found in menus_browser.cpp
 	int m_SelectedIndex;

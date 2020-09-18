@@ -1542,6 +1542,7 @@ set_src(GAME_SHARED GLOB src/game
   mapitems_ex.cpp
   mapitems_ex.h
   mapitems_ex_types.h
+  netguidefines.h
   prng.cpp
   prng.h
   teamscore.cpp
@@ -1703,6 +1704,8 @@ if(CLIENT)
     components/motd.h
     components/nameplates.cpp
     components/nameplates.h
+    components/netgui.cpp
+    components/netgui.h
     components/particles.cpp
     components/particles.h
     components/players.cpp
@@ -1933,6 +1936,8 @@ set_src(GAME_SERVER GLOB_RECURSE src/game/server
   gamemodes/gamemode.h
   gameworld.cpp
   gameworld.h
+  netgui.cpp
+  netgui.h
   player.cpp
   player.h
   save.cpp
